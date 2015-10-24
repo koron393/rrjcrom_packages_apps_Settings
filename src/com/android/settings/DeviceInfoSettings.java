@@ -93,6 +93,7 @@ public class DeviceInfoSettings extends SettingsPreferenceFragment implements In
     private static final String KEY_DEVICE_FEEDBACK = "device_feedback";
     private static final String KEY_SAFETY_LEGAL = "safetylegal";
     private static final String KEY_MOD_VERSION = "mod_version";
+    private static final String KEY_JCROM_VERSION = "jcrom_version";
     private static final String KEY_MOD_BUILD_DATE = "build_date";
     private static final String KEY_CM_UPDATES = "cm_updates";
 
@@ -139,6 +140,8 @@ public class DeviceInfoSettings extends SettingsPreferenceFragment implements In
         setStringSummary(KEY_BUILD_NUMBER, "Resurrection Remix Lollipop 5.1.1_r24 - LMY48W");
         findPreference(KEY_BUILD_NUMBER).setEnabled(true);
         findPreference(KEY_KERNEL_VERSION).setSummary(getFormattedKernelVersion());
+        setValueSummary(KEY_JCROM_VERSION, "ro.jcrom.version");
+        findPreference(KEY_JCROM_VERSION).setEnabled(true);
         setValueSummary(KEY_MOD_VERSION, "ro.rr_modversion");
         findPreference(KEY_MOD_VERSION).setEnabled(true);
         setValueSummary(KEY_MOD_BUILD_DATE, "ro.build.date");
@@ -160,11 +163,13 @@ public class DeviceInfoSettings extends SettingsPreferenceFragment implements In
                 PROPERTY_SELINUX_STATUS);
 
         // Only the owner should see the Updater settings, if it exists
+        /*
         if (UserHandle.myUserId() == UserHandle.USER_OWNER) {
             removePreferenceIfPackageNotInstalled(findPreference(KEY_CM_UPDATES));
         } else {
             getPreferenceScreen().removePreference(findPreference(KEY_CM_UPDATES));
         }
+        */
 
         // Remove Safety information preference if PROPERTY_URL_SAFETYLEGAL is not set
         removePreferenceIfPropertyMissing(getPreferenceScreen(), KEY_SAFETY_LEGAL,
@@ -203,18 +208,19 @@ public class DeviceInfoSettings extends SettingsPreferenceFragment implements In
                 Utils.UPDATE_PREFERENCE_FLAG_SET_TITLE_TO_MATCHING_ACTIVITY);
                 
         // These are contained by the root preference screen
+        /*
         parentPreference = getPreferenceScreen();
         if (UserHandle.myUserId() == UserHandle.USER_OWNER) {
             Utils.updatePreferenceToSpecificActivityOrRemove(act, parentPreference,
                     KEY_SYSTEM_UPDATE_SETTINGS,
                     Utils.UPDATE_PREFERENCE_FLAG_SET_TITLE_TO_MATCHING_ACTIVITY);
-            /* Make sure the activity is provided by who we want... */
             if (findPreference(KEY_SYSTEM_UPDATE_SETTINGS) != null)
                 removePreferenceIfPackageNotInstalled(findPreference(KEY_SYSTEM_UPDATE_SETTINGS));
         } else {
             // Remove for secondary users
             removePreference(KEY_SYSTEM_UPDATE_SETTINGS);
         }
+        */
 
         // Read platform settings for additional system update setting
         removePreferenceIfBoolFalse(KEY_UPDATE_SETTING,

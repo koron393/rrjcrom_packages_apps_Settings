@@ -124,6 +124,12 @@
                 style="?android:preferenceInformationStyle"
                 android:title="@string/rr_mod_version"
                 android:summary="@string/mod_version_default" />
+        
+        <!-- JCROM version -->
+        <Preference android:key="jcrom_version"
+                style="?android:preferenceInformationStyle"
+                android:title="@string/jcrom_version"
+                android:summary="@string/jcrom_version_default" />
                 
         <!-- About Resurrection -->        
        <PreferenceScreen

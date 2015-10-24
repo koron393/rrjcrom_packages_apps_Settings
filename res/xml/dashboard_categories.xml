@@ -124,6 +124,25 @@
             </intent>
         </dashboard-tile>
     </dashboard-category>
+    
+    <!-- JCROM -->
+    <dashboard-category
+            android:id="@+id/jcrom_section"
+            android:title="@string/header_category_jcrom" >
+
+        <dashboard-tile
+                android:id="@+id/jcrom_settings"
+                android:fragment="com.android.settings.JapaneseCustomRomSettings"
+                android:icon="@drawable/ic_jcrom_settings"
+                android:title="@string/jcrom_settings" />
+
+        <dashboard-tile
+                android:id="@+id/jcrom_developers"
+                android:fragment="com.android.settings.JapaneseCustomRomDevelopers"
+                android:icon="@drawable/ic_jcrom_developers"
+                android:title="@string/jcrom_developers" />
+
+    </dashboard-category>
 
     <!-- DEVICE -->
     <dashboard-category
@@ -185,6 +204,12 @@
                 android:fragment="com.android.settings.fuelgauge.PowerUsageSummary"
                 android:icon="@drawable/ic_settings_battery"
                 />
+        
+        <dashboard-tile
+                android:id="@+id/jcrom_batterysaver"
+                android:fragment="com.android.settings.JapaneseCustomRomBatterySaver"
+                android:icon="@drawable/ic_settings_battery"
+                android:title="@string/jcrom_batterysaver" />
 
         <!-- Application Settings -->
         <dashboard-tile
@@ -248,6 +273,12 @@
                 android:fragment="com.android.settings.SecuritySettings"
                 android:icon="@drawable/ic_settings_security"
                 />
+        <!-- AppOps -->
+        <dashboard-tile
+                android:id="@+id/app_ops_settings"
+                android:title="@string/app_ops_settings"
+                android:fragment="com.android.settings.applications.AppOpsSummary"
+                android:icon="@drawable/ic_appops" />
 
         <!-- CyanogenMod Privacy Settings -->
         <!-- This is the 'real' Privacy items and includes Privacy Guard, Blacklist & WhisperPush -->
