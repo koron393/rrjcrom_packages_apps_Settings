@@ -34,6 +34,7 @@ import com.android.settings.cyanogenmod.qs.DraggableGridView;
 import com.android.settings.cyanogenmod.qs.QSTiles;
 import com.android.settings.search.BaseSearchIndexProvider;
 import com.android.settings.search.Indexable;
+import com.android.settings.util.Helpers;
 
 
 import java.util.ArrayList;
@@ -41,8 +42,12 @@ import java.util.List;
 
 public class NotificationDrawerSettings extends SettingsPreferenceFragment implements Indexable,
         Preference.OnPreferenceChangeListener {
+    private static final String PREF_CUSTOM_HEADER_DEFAULT = "status_bar_custom_header_default";
+
     private Preference mQSTiles;
     private ListPreference mNumColumns;
+    private SwitchPreference mCustomHeader;
+    private ListPreference mCustomHeaderDefault;
 
     @Override
     public void onCreate(Bundle icicle) {
@@ -69,7 +74,15 @@ public class NotificationDrawerSettings extends SettingsPreferenceFragment imple
         updateNumColumnsSummary(numColumns);
         mNumColumns.setOnPreferenceChangeListener(this);
         DraggableGridView.setColumnCount(numColumns);
-}
+
+        // Status bar custom header default
+        mCustomHeaderDefault = (ListPreference) findPreference(PREF_CUSTOM_HEADER_DEFAULT);
+        mCustomHeaderDefault.setOnPreferenceChangeListener(this);
+        int customHeaderDefault = Settings.System.getInt(getContentResolver(),
+                Settings.System.STATUS_BAR_CUSTOM_HEADER_DEFAULT, 0);
+        mCustomHeaderDefault.setValue(String.valueOf(customHeaderDefault));
+	}
+
 
     @Override
     public void onResume() {
@@ -90,14 +103,38 @@ public class NotificationDrawerSettings extends SettingsPreferenceFragment imple
             updateNumColumnsSummary(numColumns);
             DraggableGridView.setColumnCount(numColumns);
             return true;
-        	}
-	return false;
-	}
+        } else if (preference == mCustomHeader) {
+            Settings.System.putInt(getContentResolver(),
+                    Settings.System.STATUS_BAR_CUSTOM_HEADER,
+                    (Boolean) newValue ? 1 : 0);
+            return true;
+        } else if (preference == mCustomHeaderDefault) {
+            int customHeaderDefault = Integer.valueOf((String) newValue);
+            Settings.System.putIntForUser(getContentResolver(), 
+                    Settings.System.STATUS_BAR_CUSTOM_HEADER_DEFAULT,
+                    customHeaderDefault, UserHandle.USER_CURRENT);
+            Settings.System.putInt(getContentResolver(),
+                    Settings.System.STATUS_BAR_CUSTOM_HEADER,
+                    0);
+            Settings.System.putInt(getContentResolver(),
+                    Settings.System.STATUS_BAR_CUSTOM_HEADER,
+                    1);
+            return true;
+        }
+        return false;
+    }
 
- public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen, Preference preference) {
+    @Override
+    public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen, Preference preference) {
+        if (preference == mCustomHeader) {
+           boolean customHeader = ((SwitchPreference)preference).isChecked();
+           Settings.System.putInt(getActivity().getContentResolver(),
+                   Settings.System.STATUS_BAR_CUSTOM_HEADER_DEFAULT, customHeader ? 1:0);
+           Helpers.restartSystemUI();
+        }
         return super.onPreferenceTreeClick(preferenceScreen, preference);
     }
-	
+
     private void updateNumColumnsSummary(int numColumns) {
         String prefix = (String) mNumColumns.getEntries()[mNumColumns.findIndexOfValue(String
                 .valueOf(numColumns))];
