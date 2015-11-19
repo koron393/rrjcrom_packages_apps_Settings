@@ -370,17 +370,14 @@ public class WifiSettings extends RestrictedSettingsFragment
                     @Override
                     public void onItemSelected(Switch switchView, int position) {
                         mWifiFilterState = position;
-                        if (mAccessPoints != null) {
-                            updateAccessPoints(filterAccessPoints(mAccessPoints));
-                        }
+                        updateAccessPoints(mAccessPoints);
                     }
                 });
         return new WifiEnabler(activity, activity.getSwitchBar());
     }
 
     private Collection<AccessPoint> filterAccessPoints(Collection<AccessPoint> accessPoints) {
-        ArrayList<AccessPoint> aps =
-                new ArrayList<AccessPoint>();
+        ArrayList<AccessPoint> aps = new ArrayList<AccessPoint>();
         for (AccessPoint accessPoint : accessPoints) {
             int security = accessPoint.getSecurity();
             boolean add = false;
@@ -397,9 +394,10 @@ public class WifiSettings extends RestrictedSettingsFragment
                     add = true;
                     break;
             }
-            if (add) aps.add(accessPoint);
+            if (add) {
+                aps.add(accessPoint);
+            }
         }
-        Collections.sort(aps);
         return aps;
     }
 
@@ -703,14 +701,29 @@ public class WifiSettings extends RestrictedSettingsFragment
             case WifiManager.WIFI_STATE_ENABLED:
                 // AccessPoints are automatically sorted with TreeSet.
                 if (accessPoints == null) {
-                    accessPoints = constructAccessPoints(getActivity(), mWifiManager, mLastInfo,
+                    mAccessPoints = constructAccessPoints(getActivity(), mWifiManager, mLastInfo,
                             mLastNetworkInfo);
-                    mAccessPoints = accessPoints;
+                    accessPoints = filterAccessPoints(mAccessPoints);
+                } else {
                     accessPoints = filterAccessPoints(accessPoints);
                 }
                 getPreferenceScreen().removeAll();
                 if (accessPoints.size() == 0) {
-                    addMessagePreference(R.string.wifi_empty_list_wifi_on);
+                    if (mAccessPoints.size() == 0) {
+                        addMessagePreference(R.string.wifi_empty_list_wifi_on);
+                    } else {
+                        switch (mWifiFilterState) {
+                            case 0:
+                                addMessagePreference(R.string.wifi_empty_list_wifi_on);
+                                break;
+                            case 1:
+                                addMessagePreference(R.string.wifi_empty_list_protected);
+                                break;
+                            case 2:
+                                addMessagePreference(R.string.wifi_empty_list_open);
+                                break;
+                        }
+                    }
                 }
 
                 for (AccessPoint accessPoint : accessPoints) {

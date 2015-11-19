@@ -210,8 +210,9 @@ public class SwitchBar extends LinearLayout implements CompoundButton.OnCheckedC
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        for (OnItemSelectedListener mItemSelectedListener : mItemSelectedListeners)
+        for (OnItemSelectedListener mItemSelectedListener : mItemSelectedListeners) {
             mItemSelectedListener.onItemSelected(mSwitch, position);
+        }
     }
 
     @Override
@@ -246,7 +247,7 @@ public class SwitchBar extends LinearLayout implements CompoundButton.OnCheckedC
         mItemSelectedListeners.remove(listener);
     }
 
-    private static class SpinnerAdapter<T> extends ArrayAdapter<T> {
+    private class SpinnerAdapter<T> extends ArrayAdapter<T> {
 
         private final T[] entries;
 
@@ -255,19 +256,24 @@ public class SwitchBar extends LinearLayout implements CompoundButton.OnCheckedC
             this.entries = entries;
         }
 
-        private View createView(LayoutInflater inflater, ViewGroup parent, int position, boolean dropDown) {
+        private View createView(LayoutInflater inflater, ViewGroup parent,
+                int position, boolean dropDown) {
             TextView textView = (TextView) inflater.inflate(R.layout.spinner_item, parent, false)
                     .findViewById(android.R.id.text1);
             textView.setText(entries[position].toString());
-            if (!dropDown) textView.setPadding(0, textView.getPaddingTop(),
-                    textView.getPaddingRight(), textView.getPaddingBottom());
-            else textView.setBackground(getContext().getDrawable(R.drawable.switchbar_background));
+            if (!dropDown) {
+                textView.setPadding(0, textView.getPaddingTop(),
+                        textView.getPaddingRight(), textView.getPaddingBottom());
+            } else {
+                textView.setBackground(getContext().getDrawable(R.drawable.switchbar_background));
+            }
             return textView;
         }
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            return createView(LayoutInflater.from(getContext()), parent, position, false);
+            return createView(LayoutInflater.from(getContext()), parent,
+                    mSpinner.getSelectedItemPosition(), false);
         }
 
         @Override
