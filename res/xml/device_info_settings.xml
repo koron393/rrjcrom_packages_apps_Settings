@@ -25,12 +25,6 @@
                 android:summary="@string/mod_version_default"
 		android:icon="@drawable/ic_rr_tools_tint" />
 
-        <!-- JCROM version -->
-        <Preference android:key="jcrom_version"
-                style="?android:preferenceInformationStyle"
-                android:title="@string/jcrom_version"
-                android:summary="@string/jcrom_version_default" />
-
  <!-- System update settings - launches activity -->
         <PreferenceScreen android:key="system_update_settings"
                 android:title="@string/system_update_settings_list_item_title" 
@@ -144,6 +138,12 @@
                 style="?android:preferenceInformationStyle"
                 android:title="@string/firmware_version"
                 android:summary="@string/device_info_default"/>
+        
+        <!-- JCROM version -->
+        <Preference android:key="jcrom_version"
+                style="?android:preferenceInformationStyle"
+                android:title="@string/jcrom_version"
+                android:summary="@string/jcrom_version_default" />
 
         <!-- Security patch level -->
         <Preference android:key="security_patch"
