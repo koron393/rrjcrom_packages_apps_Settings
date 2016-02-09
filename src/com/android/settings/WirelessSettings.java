@@ -289,7 +289,7 @@ public class WirelessSettings extends SettingsPreferenceFragment
         }
 
         // Remove NSD checkbox by default
-        getPreferenceScreen().removePreference(nsd);
+        if (nsd != null) getPreferenceScreen().removePreference(nsd);
         //mNsdEnabler = new NsdEnabler(activity, nsd);
 
         String toggleable = Settings.Global.getString(activity.getContentResolver(),
@@ -334,7 +334,7 @@ public class WirelessSettings extends SettingsPreferenceFragment
         // Remove NFC if not available
         mNfcAdapter = NfcAdapter.getDefaultAdapter(activity);
         if (mNfcAdapter == null && nfcCategory != null) {
-            getPreferenceScreen().removePreference(nfcCategory);
+            if (nfcCategory != null) getPreferenceScreen().removePreference(nfcCategory);
             mNfcEnabler = null;
         }
 
@@ -371,7 +371,7 @@ public class WirelessSettings extends SettingsPreferenceFragment
         final DevicePolicyManager mDPM = (DevicePolicyManager)
                 activity.getSystemService(Context.DEVICE_POLICY_SERVICE);
         // proxy UI disabled until we have better app support
-        getPreferenceScreen().removePreference(mGlobalProxy);
+        if (mGlobalProxy != null) getPreferenceScreen().removePreference(mGlobalProxy);
         mGlobalProxy.setEnabled(mDPM.getGlobalProxyAdmin() == null);
 
         // Disable Tethering if it's not allowed or if it's a wifi-only device
