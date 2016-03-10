@@ -1428,7 +1428,7 @@ public final class Utils {
     }
 
     public static boolean isDozeAvailable(Context context) {
-        String name = Build.IS_DEBUGGABLE ? SystemProperties.get("debug.doze.component") : null;
+        String name = SystemProperties.get("debug.doze.component");
         if (TextUtils.isEmpty(name)) {
             name = context.getResources().getString(
                     com.android.internal.R.string.config_dozeComponent);

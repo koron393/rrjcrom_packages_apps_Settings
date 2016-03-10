@@ -532,14 +532,7 @@ public class DevelopmentSettings extends SettingsPreferenceFragment
     }
 
     private boolean removeRootOptionsIfRequired() {
-        // user builds don't get root, and eng always gets root
-        if (!(Build.IS_DEBUGGABLE || "eng".equals(Build.TYPE))) {
-            if (mRootAccess != null) {
-                getPreferenceScreen().removePreference(mRootAccess);
-                return true;
-            }
-        }
-
+        // Always show root options
         return false;
     }
 
