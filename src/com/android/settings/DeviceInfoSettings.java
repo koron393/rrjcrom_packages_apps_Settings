@@ -140,7 +140,7 @@ public class DeviceInfoSettings extends SettingsPreferenceFragment implements In
         setValueSummary(KEY_BASEBAND_VERSION, "gsm.version.baseband");
         setValueSummary(KEY_EQUIPMENT_ID, PROPERTY_EQUIPMENT_ID);
         setStringSummary(KEY_DEVICE_MODEL, Build.MODEL);
-        setStringSummary(KEY_BUILD_NUMBER, "Resurrection Remix Lollipop 5.1.1_r26 - LMY48Y");
+        setStringSummary(KEY_BUILD_NUMBER, "Unofficial Resurrection Remix Lollipop 5.1.1_r34 - LMY49G");
         findPreference(KEY_BUILD_NUMBER).setEnabled(true);
         findPreference(KEY_KERNEL_VERSION).setSummary(getFormattedKernelVersion());
         setValueSummary(KEY_JCROM_VERSION, "ro.jcrom.version");
